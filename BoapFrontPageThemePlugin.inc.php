@@ -7,7 +7,9 @@ class BoapFrontPageThemePlugin extends ThemePlugin {
      * @return null
      */
     public function init() {
-        $this->addStyle('stylesheet', 'dist/css/style.css');
+        // Use the parent theme's unique plugin slug
+        $this->setParent('healthsciencesthemeplugin');
+        $this->addStyle('child-stylesheet', 'styles/index.less');
     }
 
     /**
@@ -23,6 +25,6 @@ class BoapFrontPageThemePlugin extends ThemePlugin {
      * @return string
      */
     function getDescription() {
-        return 'BOAP Front Page Theme Plugin.';
+        return 'BOAP Front Page Theme. Child of healthSciences.';
     }
 }
