@@ -12,7 +12,7 @@
 
 <div class="container page-site">
 	<div class="row justify-content-md-center">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<div class="page-content">
 				{if $about}
 					<div class="site-about">
@@ -25,44 +25,58 @@
 				{if !count($journals)}
 					<p>{translate key="site.noJournals"}</p>
 				{else}
-					<div class="site-journals-list">
+					<div class="row row-eq-height align-items-start">
 						{iterate from=journals item=journal}
-							{capture assign="url"}{url journal=$journal->getPath()}{/capture}
-							{assign var="thumb" value=$journal->getLocalizedSetting('journalThumbnail')}
-							{assign var="description" value=$journal->getLocalizedDescription()}
-							<div class="site-journal">
-								{if $thumb}
-									<a class="site-journal-img" href="{$url|escape}">
-										<img src="{$journalFilesPath}{$journal->getId()}/{$thumb.uploadName|escape:"url"}"{if $altText} alt="{$altText|escape}"{/if}>
-									</a>
-								{/if}
-								<div class="site-journal-body">
-									<h3 class="site-journal-title">
-										<a href="{$url|escape}" rel="bookmark">
-											{$journal->getLocalizedName()}
-										</a>
-									</h3>
-									<div class="site-journal-description">{$description|nl2br}</div>
-									<p class="links">
-										<a class="btn" href="{$url|escape}">
-											{translate key="site.journalView"}
-										</a>
-										<a class="btn" href="{url|escape journal=$journal->getPath() page="issue" op="current"}">
-											{translate key="site.journalCurrent"}
-										</a>
-									</p>
-								</div>
-							</div>
-						{/iterate}
-					</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+						{capture assign="url"}{url journal=$journal->getPath()}{/capture}
+						{assign var="thumb" value=$journal->getLocalizedSetting('journalThumbnail')}
+						{assign var="description" value=$journal->getLocalizedDescription()}
 
-					{if $journals->getPageCount() > 0}
-						<div class="cmp_pagination">
-							{page_info iterator=$journals}
-							{page_links anchor="journals" name="journals" iterator=$journals}
+						<div class="site-journal">
+							{if $thumb}
+							<a class="site-journal-img" href="{$url|escape}">
+								<img class="card-img-top" src="{$journalFilesPath}{$journal->getId()}/{$thumb.uploadName|escape:"url"}"{if $altText} alt="{$altText|escape}"{/if}>
+							</a>
+
+							{else}
+								<a class="site-journal-img" href="{$url|escape}">
+								<div class="journal-img-placeholder"></div>
+								</a>
+							{/if}
+
+
+							<div class="site-journal-body">
+								<h3 class="site-journal-title">
+									<a href="{$url|escape}" rel="bookmark">
+										{$journal->getLocalizedName()}
+									</a>
+								</h3>
+								<div class="site-journal-description journal-intro">
+									{$description|nl2br}
+								</div>
+								<p class="links journal-intro">
+									<a class="btn" href="{$url|escape}">
+										{translate key="site.journalView"}
+									</a>
+									<a class="btn" href="{url|escape journal=$journal->getPath() page="issue" op="current"}">
+										{translate key="site.journalCurrent"}
+									</a>
+								</p>
+							</div>
+
 						</div>
-					{/if}
+
+					</div>
+					{/iterate}
+				</div>
+
+				{if $journals->getPageCount() > 0}
+					<div class="cmp_pagination">
+						{page_info iterator=$journals}
+						{page_links anchor="journals" name="journals" iterator=$journals}
+					</div>
 				{/if}
+			{/if}
 			</div>
 		</div>
 	</div>
